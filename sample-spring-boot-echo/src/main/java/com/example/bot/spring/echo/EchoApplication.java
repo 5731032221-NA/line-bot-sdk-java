@@ -46,7 +46,7 @@ public class EchoApplication {
         else {
         	return new TextMessage(event.getMessage().getText());
         }
-        return new TextMessage(event.getMessage().getText());
+    
     }
 
     @EventMapping
