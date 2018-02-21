@@ -50,7 +50,17 @@ public class EchoApplication {
     
     @EventMapping
     public TextMessage handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
-		return new TextMessage("Hello Pig data");
+		return new TextMessage(event.getMessage().getStickerId());
+		
+		//return new StickerMessage( event.getMessage().getPackageId(), event.getMessage().getStickerId());
+        //handleSticker(event.getReplyToken(), event.getMessage());
+		
+		
+    }
+    
+    @EventMapping
+    public TextMessage handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
+		return new TextMessage("สติกเกอร์ตัวอะไรอะ");
 		
 		//return new StickerMessage( event.getMessage().getPackageId(), event.getMessage().getStickerId());
         //handleSticker(event.getReplyToken(), event.getMessage());
