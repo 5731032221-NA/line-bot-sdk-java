@@ -103,10 +103,12 @@ public class EchoApplication {
         	return new TextMessage(event.getReplyToken());
         }else if(event.getMessage().getText().equalsIgnoreCase("ไทย")) {
         	return new TextMessage("โอ้!! ภาษาไทย");
-        }else if(event.getMessage().getText().equalsIgnoreCase("2") || (matchervc.find() && ( matcherp1.find() || matcherp2.find() ) ) ) {
+        }else if(event.getMessage().getText().equalsIgnoreCase("2") || (matchervc.find()  ) ) {
         	return new TextMessage("เพิ่มข้อมูลการฉีดวัคซีนของสุกร");
         }else if(event.getMessage().getText().equalsIgnoreCase("1") || (matcherad.find() && ( matcherp1.find() || matcherp2.find() ) ) ) {
-        	return new TextMessage("เพิ่มข้อมูลสุกร");
+        	return new TextMessage("เพิ่มข้อมูลสุกร1");
+        }else if(event.getMessage().getText().equalsIgnoreCase("1") || (matcherad.find()  ) ) {
+        	return new TextMessage("เพิ่มข้อมูลสุกร2");
         }else if(event.getMessage().getText().equalsIgnoreCase("4") || (matchered.find()  ) ) {
         	return new TextMessage("แก้ไขข้อมูลสุกร");
         }else if(event.getMessage().getText().equalsIgnoreCase("5") || (matcherde.find()  ) ) {
