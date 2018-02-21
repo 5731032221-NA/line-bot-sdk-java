@@ -33,10 +33,10 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
-
+/*
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutionException;*/
 import java.util.regex.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,13 +51,13 @@ public class EchoApplication {
     public static void main(String[] args) {
         SpringApplication.run(EchoApplication.class, args);
     }
-    
+    /*
     @EventMapping
     public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
 			//return new StickerMessage( event.getMessage().getPackageId(), event.getMessage().getStickerId());
         handleSticker(event.getReplyToken(), event.getMessage());
 	
-    }
+    }*/
     
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
@@ -148,7 +148,7 @@ public class EchoApplication {
     public void handleDefaultMessageEvent(Event event) {
         System.out.println("event: " + event);
     }
-    
+    /*
     private void handleSticker(String replyToken, StickerMessageContent content) {
         reply(replyToken, new StickerMessage(
                 content.getPackageId(), content.getStickerId())
@@ -168,5 +168,5 @@ public class EchoApplication {
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 }
