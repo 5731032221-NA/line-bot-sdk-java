@@ -21,7 +21,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
+import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
@@ -36,13 +38,69 @@ public class EchoApplication {
     }
     
     @EventMapping
+    public StickerMessage handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
+		
+		return new StickerMessage( event.getMessage().getPackageId(), event.getMessage().getStickerId());
+        //handleSticker(event.getReplyToken(), event.getMessage());
+		
+		
+    }
+    
+    
+    @EventMapping
+    public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
+        handleSticker(event.getReplyToken(), event.getMessage());
+    }
+    
+    @EventMapping
+    public void handleAudioMessageEvent(MessageEvent<AudioMessageContent> event) throws IOException {
+        handleHeavyContent(
+                event.getReplyToken(),
+                event.getMessage().getId(),
+                responseBody -> {
+                    DownloadedContent mp4 = saveContent("mp4", responseBody);
+                    reply(event.getReplyToken(), new AudioMessage(mp4.getUri(), 100));
+                });
+    }
+    
+    @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
-        System.out.println("event: " + event);
+	 System.out.println("event: " + event);
         
         String ad = "เพิ่ม"; 
         //String 
 		Pattern patternad = Pattern.compile(ad);
-		Matcher matcher = patternad.matcher(event.getMessage().getText());
+		Matcher matcherad = patternad.matcher(event.getMessage().getText());
+		
+		String vc = "วัคซีน"; 
+        //String 
+		Pattern patternvc = Pattern.compile(vc);
+		Matcher matchervc = patternvc.matcher(event.getMessage().getText());
+		
+		String p1 = "สุกร"; 
+        //String 
+		Pattern patternp1 = Pattern.compile(p1);
+		Matcher matcherp1 = patternp1.matcher(event.getMessage().getText());
+		
+		String p2 = "หมู"; 
+        //String 
+		Pattern patternp2 = Pattern.compile(p2);
+		Matcher matcherp2 = patternp2.matcher(event.getMessage().getText());
+		
+		String ed = "แก้ไข"; 
+        //String 
+		Pattern patterned = Pattern.compile(ed);
+		Matcher matchered = patterned.matcher(event.getMessage().getText());
+		
+		String de = "ลบ"; 
+        //String 
+		Pattern patternde = Pattern.compile(de);
+		Matcher matcherde = patternde.matcher(event.getMessage().getText());
+		
+		String ou = "ออกจากระบบ"; 
+        //String 
+		Pattern patternou = Pattern.compile(ou);
+		Matcher matcherou = patternou.matcher(event.getMessage().getText());
         
         
         //return new TextMessage(event.getMessage().getText());
@@ -60,19 +118,27 @@ public class EchoApplication {
         	return new TextMessage(event.getReplyToken());
         }else if(event.getMessage().getText().equalsIgnoreCase("ไทย")) {
         	return new TextMessage("โอ้!! ภาษาไทย");
-        }else if(event.getMessage().getText().equalsIgnoreCase("1") || matcher.find()) {
-        	return new TextMessage("เพิ่มหมู");
+        }else if(event.getMessage().getText().equalsIgnoreCase("2") || (matchervc.find() && ( matcherp1.find() || matcherp2.find() ) ) ) {
+        	return new TextMessage("เพิ่มข้อมูลการฉีดวัคซีนของสุกร");
+        }else if(event.getMessage().getText().equalsIgnoreCase("1") || (matcherad.find() && ( matcherp1.find() || matcherp2.find() ) ) ) {
+        	return new TextMessage("เพิ่มข้อมูลสุกร");
+        }else if(event.getMessage().getText().equalsIgnoreCase("4") || (matchered.find()  ) ) {
+        	return new TextMessage("แก้ไขข้อมูลสุกร");
+        }else if(event.getMessage().getText().equalsIgnoreCase("5") || (matcherde.find()  ) ) {
+        	return new TextMessage("ลบข้อมูลสุกร");
+        }else if(event.getMessage().getText().equalsIgnoreCase("0") || (matcherou.find()  ) ) {
+        	return new TextMessage("ออกจากระบบ");
         }
         else {
-        	return new TextMessage("[1] เพิ่มข้อมูลสุกร\n" + 
-        						   "[2] เพิ่มข้อมูลการฉีด\n" + 
-        						   "[3] วัคซีนของสุกร\n" + 
+        	return new TextMessage("รายการคำสั่งที่ใช้งานได้\n" +
+        						   "             \n" +
+        						   "[1] เพิ่มข้อมูลสุกร\n" + 
+        						   "[2] เพิ่มข้อมูลการฉีดวัคซีนของสุกร\n" +
         						   "[4] แก้ไขข้อมูลสุกร\n" + 
         						   "[5] ลบข้อมูลสุกร\n" + 
         						   "[0] ออกจากระบบ\n" + 
         						   "");
         }
-    
     }
 
     @EventMapping
