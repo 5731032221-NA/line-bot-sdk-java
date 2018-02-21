@@ -19,34 +19,45 @@ package com.example.bot.spring.echo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.event.Event;
-import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.StickerMessageContent;
-import com.linecorp.bot.model.event.message.TextMessageContent;
-import com.linecorp.bot.model.message.StickerMessage;
-import com.linecorp.bot.model.message.TextMessage;
+
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import com.linecorp.bot.model.event.MessageEvent;
 
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.message.Message;
+import com.linecorp.bot.model.message.StickerMessage;
+import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.response.BotApiResponse;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootApplication
 @LineMessageHandler
 public class EchoApplication {
+	
+	@Autowired
+    private LineMessagingClient lineMessagingClient;
+	
     public static void main(String[] args) {
         SpringApplication.run(EchoApplication.class, args);
     }
     
     @EventMapping
-    public StickerMessage handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
-		
-		return new StickerMessage( event.getMessage().getPackageId(), event.getMessage().getStickerId());
-        //handleSticker(event.getReplyToken(), event.getMessage());
-		
-		
+    public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
+			//return new StickerMessage( event.getMessage().getPackageId(), event.getMessage().getStickerId());
+        handleSticker(event.getReplyToken(), event.getMessage());
+	
     }
-    
-    
     
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
@@ -107,7 +118,7 @@ public class EchoApplication {
         	return new TextMessage("เพิ่มข้อมูลการฉีดวัคซีนของสุกร");
         }else if(event.getMessage().getText().equalsIgnoreCase("1") || (matcherad.find() && ( matcherp1.find() || matcherp2.find() ) ) ) {
         	return new TextMessage("เพิ่มข้อมูลสุกร  \n"
-        			+ "สารถเพิ่มข้อมูลได้ที่" 
+        			+ "สามารถเพิ่มข้อมูลได้ที่  " 
         			+ "https://pigdata-192614.appspot.com/addPig");
         }else if(event.getMessage().getText().equalsIgnoreCase("1") || (matcherad.find()  ) ) {
         	return new TextMessage("เพิ่มข้อมูลสุกร  \n"
@@ -115,7 +126,7 @@ public class EchoApplication {
         			+ "https://pigdata-192614.appspot.com/addPig");
         }else if(event.getMessage().getText().equalsIgnoreCase("4") || (matchered.find()  ) ) {
         	return new TextMessage("แก้ไขข้อมูลสุกร"
-        			+"สามารถแก้ไขข้อมูลได้ที่ https://pigdata-192614.appspot.com/editPig");
+        			+"สามารถแก้ไขข้อมูลได้ที่  https://pigdata-192614.appspot.com/editPig");
         }else if(event.getMessage().getText().equalsIgnoreCase("5") || (matcherde.find()  ) ) {
         	return new TextMessage("ลบข้อมูลสุกร");
         }else if(event.getMessage().getText().equalsIgnoreCase("0") || (matcherou.find()  ) ) {
@@ -136,5 +147,26 @@ public class EchoApplication {
     @EventMapping
     public void handleDefaultMessageEvent(Event event) {
         System.out.println("event: " + event);
+    }
+    
+    private void handleSticker(String replyToken, StickerMessageContent content) {
+        reply(replyToken, new StickerMessage(
+                content.getPackageId(), content.getStickerId())
+        );
+    }
+    
+    private void reply( String replyToken,  Message message) {
+        reply(replyToken, Collections.singletonList(message));
+    }
+
+    private void reply(String replyToken, List<Message> messages) {
+        try {
+            BotApiResponse apiResponse = lineMessagingClient
+                    .replyMessage(new ReplyMessage(replyToken, messages))
+                    .get();
+          
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
