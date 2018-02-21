@@ -56,7 +56,7 @@ public class EchoApplication {
     public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
 			//return new StickerMessage( event.getMessage().getPackageId(), event.getMessage().getStickerId());
         //handleSticker(event.getReplyToken(), event.getMessage());
-        reply(replyToken, new StickerMessage(
+        reply(event.getReplyToken(), new StickerMessage(
         		event.getMessage().getPackageId(), event.getMessage().getStickerId())
         );
     }
