@@ -26,6 +26,8 @@ import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
+import java.util.regex.*;
+
 @SpringBootApplication
 @LineMessageHandler
 public class EchoApplication {
@@ -36,6 +38,13 @@ public class EchoApplication {
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
         System.out.println("event: " + event);
+        
+        String ad = "เพิ่ม"; 
+        //String 
+		Pattern patternad = Pattern.compile(ad);
+		Matcher matcher = pattern.matcher(event.getMessage().getText());
+        
+        
         //return new TextMessage(event.getMessage().getText());
         if(event.getMessage().getText().equalsIgnoreCase("testPig")) {
         	return new TextMessage("Hello Pig data");
@@ -51,9 +60,17 @@ public class EchoApplication {
         	return new TextMessage(event.getReplyToken());
         }else if(event.getMessage().getText().equalsIgnoreCase("ไทย")) {
         	return new TextMessage("โอ้!! ภาษาไทย");
+        }else if(event.getMessage().getText().equalsIgnoreCase("1") || matcher.find()>0) {
+        	return new TextMessage("เพิ่มหมู");
         }
         else {
-        	return new TextMessage(event.getMessage().getText());
+        	return new TextMessage("[1] เพิ่มข้อมูลสุกร\n" + 
+        						   "[2] เพิ่มข้อมูลการฉีด\n" + 
+        						   "[3] วัคซีนของสุกร\n" + 
+        						   "[4] แก้ไขข้อมูลสุกร\n" + 
+        						   "[5] ลบข้อมูลสุกร\n" + 
+        						   "[0] ออกจากระบบ\n" + 
+        						   "");
         }
     
     }
