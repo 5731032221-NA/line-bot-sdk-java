@@ -62,7 +62,7 @@ public class EchoApplication {
     public TextMessage handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
 		return new TextMessage("สติกเกอร์ตัวอะไรอะ\n+"
 				+ "                 "
-				+ "StickerPacketID :        "+
+				+ "StickerPacketID :        "
 				+ "  " + event.getMessage().getPackageId()
 				+ "StickerID :          "
 				+ "  " + event.getMessage().getStickerId()
