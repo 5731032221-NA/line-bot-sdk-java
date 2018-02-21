@@ -60,12 +60,12 @@ public class EchoApplication {
     
     @EventMapping
     public TextMessage handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
-		return new TextMessage("สติกเกอร์ตัวอะไรอะ\n+"
-				+ "                 "
-				+ "StickerPacketID :        "
-				+ "  " + event.getMessage().getPackageId()
-				+ "StickerID :          "
-				+ "  " + event.getMessage().getStickerId()
+		return new TextMessage("สติกเกอร์ตัวอะไรอะ\n"
+				+ "                 \n"
+				+ "StickerPacketID : "
+				+ event.getMessage().getPackageId()
+				+ "\nStickerID : "
+				+ event.getMessage().getStickerId()
 				);
 		
 		//return new StickerMessage( event.getMessage().getPackageId(), event.getMessage().getStickerId());
