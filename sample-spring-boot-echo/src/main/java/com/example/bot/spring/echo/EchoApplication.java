@@ -43,6 +43,14 @@ public class EchoApplication {
         	return new TextMessage("Will add function in the future");
         }else if(event.getMessage().getText().equalsIgnoreCase("userid")) {
         	return new TextMessage(event.getSource().getUserId());
+        }else if(event.getMessage().getText().equalsIgnoreCase("sender")) {
+        	return new TextMessage(event.getSource().getSenderId());
+        }else if(event.getMessage().getText().equalsIgnoreCase("time")) {
+	        	return new TextMessage(event.getTimestamp().toString());
+        }else if(event.getMessage().getText().equalsIgnoreCase("replytoken")) {
+        	return new TextMessage(event.getReplyToken());
+        }else if(event.getMessage().getText().equalsIgnoreCase("ไทย")) {
+        	return new TextMessage("โอ้!! ภาษาไทย");
         }
         else {
         	return new TextMessage(event.getMessage().getText());
