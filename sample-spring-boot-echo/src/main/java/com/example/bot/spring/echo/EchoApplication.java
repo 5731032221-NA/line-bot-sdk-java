@@ -32,7 +32,7 @@ public class EchoApplication {
     public static void main(String[] args) {
         SpringApplication.run(EchoApplication.class, args);
     }
-
+    
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
         System.out.println("event: " + event);
@@ -42,6 +42,8 @@ public class EchoApplication {
         	return new TextMessage("Hello Pig data");
         }else if(event.getMessage().getText().equals("addPig")) {
         	return new TextMessage("Will add function in the future");
+        }else if(event.getMessage().getText().equals("userid")) {
+        	return new TextMessage(event.getSource().getUserId());
         }
         else {
         	return new TextMessage(event.getMessage().getText());
