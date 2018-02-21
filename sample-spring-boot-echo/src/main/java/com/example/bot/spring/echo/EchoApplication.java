@@ -33,10 +33,10 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
-/*
+
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;*/
+import java.util.concurrent.ExecutionException;
 import java.util.regex.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
