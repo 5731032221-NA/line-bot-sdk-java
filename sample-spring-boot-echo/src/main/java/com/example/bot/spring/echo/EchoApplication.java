@@ -106,11 +106,16 @@ public class EchoApplication {
         }else if(event.getMessage().getText().equalsIgnoreCase("2") || (matchervc.find()  ) ) {
         	return new TextMessage("เพิ่มข้อมูลการฉีดวัคซีนของสุกร");
         }else if(event.getMessage().getText().equalsIgnoreCase("1") || (matcherad.find() && ( matcherp1.find() || matcherp2.find() ) ) ) {
-        	return new TextMessage("เพิ่มข้อมูลสุกร1");
+        	return new TextMessage("เพิ่มข้อมูลสุกร  \n"
+        			+ "สารถเพิ่มข้อมูลได้ที่" +
+        			+ "https://pigdata-192614.appspot.com/addPig");
         }else if(event.getMessage().getText().equalsIgnoreCase("1") || (matcherad.find()  ) ) {
-        	return new TextMessage("เพิ่มข้อมูลสุกร2");
+        	return new TextMessage("เพิ่มข้อมูลสุกร  \n"
+        			+ "สารถเพิ่มข้อมูลได้ที่  " +
+        			+ "https://pigdata-192614.appspot.com/addPig");
         }else if(event.getMessage().getText().equalsIgnoreCase("4") || (matchered.find()  ) ) {
-        	return new TextMessage("แก้ไขข้อมูลสุกร");
+        	return new TextMessage("แก้ไขข้อมูลสุกร"
+        			+"สามารถแก้ไขข้อมูลได้ที่ https://pigdata-192614.appspot.com/editPig");
         }else if(event.getMessage().getText().equalsIgnoreCase("5") || (matcherde.find()  ) ) {
         	return new TextMessage("ลบข้อมูลสุกร");
         }else if(event.getMessage().getText().equalsIgnoreCase("0") || (matcherou.find()  ) ) {
