@@ -19,8 +19,10 @@ package com.example.bot.spring.echo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.linecorp.bot.client.LineMessagingClient;
-import com.linecorp.bot.model.ReplyMessage;
+
+import com.linecorp.bot.spring.boot.annotation.EventMapping;
+import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+
 import com.linecorp.bot.model.event.Event;
 
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
@@ -29,36 +31,31 @@ import com.linecorp.bot.model.event.MessageEvent;
 
 import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
-import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
-import com.linecorp.bot.model.response.BotApiResponse;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
+
+
 import java.util.regex.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootApplication
 @LineMessageHandler
 public class EchoApplication {
 	
-	@Autowired
-    private LineMessagingClient lineMessagingClient;
+	//@Autowired
+    //private LineMessagingClient lineMessagingClient;
 	
     public static void main(String[] args) {
         SpringApplication.run(EchoApplication.class, args);
     }
     
     @EventMapping
-    public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
-			//return new StickerMessage( event.getMessage().getPackageId(), event.getMessage().getStickerId());
+    public TextMessage handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
+		return new TextMessage("Hello Pig data");
+		
+		//return new StickerMessage( event.getMessage().getPackageId(), event.getMessage().getStickerId());
         //handleSticker(event.getReplyToken(), event.getMessage());
-        reply(event.getReplyToken(), new StickerMessage(
-        		event.getMessage().getPackageId(), event.getMessage().getStickerId())
-        );
+		
+		
     }
     
     @EventMapping
@@ -156,7 +153,7 @@ public class EchoApplication {
                 content.getPackageId(), content.getStickerId())
         );
     }*/
-    
+    /*
     private void reply( String replyToken,  Message message) {
         reply(replyToken, Collections.singletonList(message));
     }
@@ -170,5 +167,5 @@ public class EchoApplication {
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 }
