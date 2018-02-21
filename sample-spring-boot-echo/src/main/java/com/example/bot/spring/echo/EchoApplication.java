@@ -42,7 +42,7 @@ public class EchoApplication {
         String ad = "เพิ่ม"; 
         //String 
 		Pattern patternad = Pattern.compile(ad);
-		Matcher matcher = pattern.matcher(event.getMessage().getText());
+		Matcher matcher = patternad.matcher(event.getMessage().getText());
         
         
         //return new TextMessage(event.getMessage().getText());
@@ -60,7 +60,7 @@ public class EchoApplication {
         	return new TextMessage(event.getReplyToken());
         }else if(event.getMessage().getText().equalsIgnoreCase("ไทย")) {
         	return new TextMessage("โอ้!! ภาษาไทย");
-        }else if(event.getMessage().getText().equalsIgnoreCase("1") || matcher.find()>0) {
+        }else if(event.getMessage().getText().equalsIgnoreCase("1") || matcher.find()) {
         	return new TextMessage("เพิ่มหมู");
         }
         else {
