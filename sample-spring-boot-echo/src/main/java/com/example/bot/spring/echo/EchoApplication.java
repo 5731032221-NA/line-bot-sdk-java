@@ -47,7 +47,7 @@ public class EchoApplication {
     public static void main(String[] args) {
         SpringApplication.run(EchoApplication.class, args);
     }
-    
+    /*
     @EventMapping
     public TextMessage handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
 		return new TextMessage(event.getMessage().getStickerId());
@@ -56,11 +56,17 @@ public class EchoApplication {
         //handleSticker(event.getReplyToken(), event.getMessage());
 		
 		
-    }
+    }*/
     
     @EventMapping
     public TextMessage handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
-		return new TextMessage("สติกเกอร์ตัวอะไรอะ");
+		return new TextMessage("สติกเกอร์ตัวอะไรอะ\n+"
+				+ "                 "
+				+ "StickerPacketID :        "+
+				+ "  " + event.getMessage().getPackageId()
+				+ "StickerID :          "
+				+ "  " + event.getMessage().getStickerId()
+				);
 		
 		//return new StickerMessage( event.getMessage().getPackageId(), event.getMessage().getStickerId());
         //handleSticker(event.getReplyToken(), event.getMessage());
